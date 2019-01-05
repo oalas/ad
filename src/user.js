@@ -61,8 +61,10 @@ module.exports = {
         email && String(email).indexOf('@') === -1
           ? 'Invalid email address.'
           : !commonName
-            ? 'A commonName is required.'
-            : !userName ? 'A userName is required.' : true;
+          ? 'A commonName is required.'
+          : !userName
+          ? 'A userName is required.'
+          : true;
 
       if (valid !== true) {
         /* istanbul ignore next */
@@ -232,8 +234,12 @@ module.exports = {
       const params = {
         filter,
         includeMembership: ['all'],
-        includeDeleted: false
+        includeDeleted: false,
+        attributes: ['*']
       };
+      if (opts) {
+        params.attributes = [...params.attributes, ...opts.fields];
+      }
       this.ad.find(params, (err, results) => {
         if (err) {
           /* istanbul ignore next */
