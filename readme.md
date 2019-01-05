@@ -146,7 +146,7 @@ ad.cacheTimeout(millis)
 Returns all user objects.
 
 ```js
-await ad.user().get({fields: 'sAMAccountName'});
+await ad.user().get({fields: ['sAMAccountName']});
 // => ['jsmith', 'dthree', 'qix'];
 
 ```
