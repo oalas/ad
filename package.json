@@ -1,6 +1,6 @@
 {
-  "name": "ad",
-  "version": "0.3.0",
+  "name": "@redningsselskapet/ad",
+  "version": "0.3.1",
   "description": "Active Directory API for Node",
   "main": "index.js",
   "scripts": {
@@ -32,5 +32,6 @@
     "jest": "^20.0.4",
     "lint-staged": "^4.0.2",
     "prettier": "^1.5.3"
-  }
+  },
+  "repository": "https://github.com/Redningsselskapet/ad"
 }
