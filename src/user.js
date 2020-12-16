@@ -143,8 +143,8 @@ module.exports = {
       let later = [];
       let operations = [];
       for (const name in opts) {
-        if (map[name] !== undefined) {
-          let key = map[name];
+        //if (map[name] !== undefined ) {
+          let key = map[name] || name;
           let value =
             name === 'password' ? encodePassword(opts[name]) : opts[name];
           if (key !== 'cn') {
@@ -164,7 +164,7 @@ module.exports = {
               });
             }
           }
-        }
+        //}
       }
 
       operations = operations.concat(later);
