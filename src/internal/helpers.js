@@ -16,8 +16,8 @@ const ldap = require('ldapjs');
 
 module.exports = {
 
-	async _getBoundClient() {
-		return new Promise(async (resolve, reject) => {
+	_getBoundClient() {
+		return new Promise((resolve, reject) => {
 			const client = ldap.createClient({
 			    url: this.config.url,
 			    tlsOptions: {
@@ -31,10 +31,10 @@ module.exports = {
 		});
 	},
 
-	async _findByType(opts, membership) {
+	_findByType(opts, membership) {
 		opts = opts || {};
 		let cacheKey = JSON.stringify(membership);
-		return new Promise(async (resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			let cached = this._cache.get('all', cacheKey);
 			if (cached) {
 				return resolve(api.processResults(opts, cached));
@@ -81,8 +81,8 @@ module.exports = {
 		});
 	},
 
-	async _search(filter, config) {
-		return new Promise(async (resolve, reject) => {
+	_search(filter, config) {
+		return new Promise((resolve, reject) => {
 			const opts = {
 				filter,
 			  	includeDeleted: false
@@ -115,8 +115,8 @@ module.exports = {
 		});
 	},
 
-	async _getGroupUsers(groupName) {
-		return new Promise(async (resolve, reject) => {
+	_getGroupUsers(groupName) {
+		return new Promise((resolve, reject) => {
 			this.ad.getUsersForGroup(groupName, (err, users) => {
 			  if (err) {
 				/* istanbul ignore next */
@@ -131,7 +131,7 @@ module.exports = {
 		});
 	},
 
-	async _addObject(name, location, object) {
+	_addObject(name, location, object) {
 		return new Promise(async (resolve, reject) => {
 			let baseDN = String(this.config.baseDN).replace(/dc=/g, 'DC=');
 			let fullDN = String(`${name},${location}${baseDN}`);
@@ -145,7 +145,7 @@ module.exports = {
 					delete object[key];
 				}
 			}
-			client.add(fullDN, object, async (err, data) => {
+			client.add(fullDN, object, (err, data) => {
 				if (error) {
 					/* istanbul ignore next */
 					return reject(error);
@@ -156,8 +156,8 @@ module.exports = {
 		});
 	},
 
-	async _deleteObjectBySearch(searchString) { // todo
-		return new Promise(async (resolve, reject) => {
+	_deleteObjectBySearch(searchString) { // todo
+		return new Promise((resolve, reject) => {
 			this._search(searchString, {fields: ['dn']}).then(results => {
 				if (results.length < 1) {
 					/* istanbul ignore next */
@@ -174,14 +174,14 @@ module.exports = {
 		});
 	},
 
-	async _deleteObjectByDN(dn) {
+	_deleteObjectByDN(dn) {
 		return new Promise(async (resolve, reject) => {
 			const [error, client] = await this._getBoundClient();
 			if (error) {
 				/* istanbul ignore next */
 				return reject(error);
 			}
-			client.del(dn, async (err, data) => {
+			client.del(dn, (err, data) => {
 				if (error) {
 					/* istanbul ignore next */
 					return reject(error);
@@ -191,7 +191,7 @@ module.exports = {
 		});
 	},
 
-	async _modifyDN(oldDN, newDN) {
+	_modifyDN(oldDN, newDN) {
 		return new Promise(async (resolve, reject) => {
 			const [error, client] = await this._getBoundClient();
 			if (error) {

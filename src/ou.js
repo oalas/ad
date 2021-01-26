@@ -11,8 +11,8 @@ const parseLocation = require('./util/parseLocation');
  */
 
 module.exports = {
-  async getAllOUs(opts) {
-    return new Promise(async (resolve, reject) => {
+  getAllOUs(opts) {
+    return new Promise((resolve, reject) => {
       const search = `OU=*`;
       this._search(search)
         .then(results => {
@@ -31,8 +31,8 @@ module.exports = {
     });
   },
 
-  async findOU(ouName) {
-    return new Promise(async (resolve, reject) => {
+  findOU(ouName) {
+    return new Promise((resolve, reject) => {
       const search = `OU=${ouName}`;
       this._search(search)
         .then(results => {
@@ -50,15 +50,15 @@ module.exports = {
     });
   },
 
-  async ouExists(ouName) {
-    return new Promise(async (resolve, reject) => {
+  ouExists(ouName) {
+    return new Promise((resolve, reject) => {
       return this.findOU(ouName).then(ou => {
         resolve(ou !== undefined ? true : false);
       });
     });
   },
 
-  async addOU(opts) {
+  addOU(opts) {
     if (typeof opts === 'string') {
       opts = { name: opts };
     }
@@ -71,7 +71,7 @@ module.exports = {
     });
   },
 
-  async removeOU(ouName) {
+  removeOU(ouName) {
     return this._deleteObjectBySearch(`OU=${ouName}`);
   }
 };

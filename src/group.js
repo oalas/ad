@@ -17,9 +17,9 @@ module.exports = {
     return await this._findByType(opts, ['group']);
   },
 
-  async findGroup(groupName, opts) {
+  findGroup(groupName, opts) {
     groupName = String(groupName || '');
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       groupName =
         groupName.indexOf('@') > -1 ? groupName.split('@')[0] : groupName;
       if (groupName.trim() === '') {
@@ -32,7 +32,7 @@ module.exports = {
         includeDeleted: false
       };
       try {
-        this.ad.find(config, async (err, results) => {
+        this.ad.find(config, (err, results) => {
           if (err) {
             /* istanbul ignore next */
             return reject(err);
@@ -50,8 +50,8 @@ module.exports = {
     });
   },
 
-  async groupExists(groupName) {
-    return new Promise(async (resolve, reject) => {
+  groupExists(groupName) {
+    return new Promise((resolve, reject) => {
       this.findGroup(groupName)
         .then(groupObject => {
           let exists = !groupObject || !groupObject.dn ? false : true;
@@ -61,7 +61,7 @@ module.exports = {
     });
   },
 
-  async addGroup(opts) {
+  addGroup(opts) {
     if (typeof opts === 'string') {
       opts = { name: opts };
     }
@@ -75,8 +75,8 @@ module.exports = {
     });
   },
 
-  async addUserToGroup(userName, groupName) {
-    return new Promise(async (resolve, reject) => {
+  addUserToGroup(userName, groupName) {
+    return new Promise((resolve, reject) => {
       this.findUser(userName).then(userObject => {
         if (Object.keys(userObject).length < 1) {
           /* istanbul ignore next */
@@ -99,8 +99,8 @@ module.exports = {
     });
   },
 
-  async removeUserFromGroup(userName, groupName) {
-    return new Promise(async (resolve, reject) => {
+  removeUserFromGroup(userName, groupName) {
+    return new Promise((resolve, reject) => {
       this.findUser(userName).then(userObject => {
         if (Object.keys(userObject).length < 1) {
           /* istanbul ignore next */
@@ -120,8 +120,8 @@ module.exports = {
     });
   },
 
-  async removeGroup(groupName) {
-    return new Promise(async (resolve, reject) => {
+  removeGroup(groupName) {
+    return new Promise((resolve, reject) => {
       this.findGroup(groupName)
         .then(groupObject => {
           if (Object.keys(groupObject).length < 1) {

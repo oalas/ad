@@ -27,8 +27,8 @@ module.exports = {
     return await this._findByType(opts, ['user']);
   },
 
-  async addUser(opts) {
-    return new Promise(async (resolve, reject) => {
+  addUser(opts) {
+    return new Promise((resolve, reject) => {
       let {
         firstName,
         lastName,
@@ -126,7 +126,7 @@ module.exports = {
     });
   },
 
-  async updateUser(userName, opts) {
+  updateUser(userName, opts) {
     return new Promise((resolve, reject) => {
       const domain = this.config.domain;
       const map = {
@@ -221,9 +221,9 @@ module.exports = {
     });
   },
 
-  async findUser(userName, opts) {
+  findUser(userName, opts) {
     userName = String(userName || '');
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let cached = this._cache.get('users', userName);
       if (cached) {
         return resolve(api.processResults(opts, [cached])[0]);
@@ -256,8 +256,8 @@ module.exports = {
     });
   },
 
-  async userExists(userName) {
-    return new Promise(async (resolve, reject) => {
+  userExists(userName) {
+    return new Promise((resolve, reject) => {
       const domain = this.config.domain;
       let fullUser = `${userName}@${domain}`;
       this.ad.userExists(fullUser, (error, exists) => {
@@ -270,8 +270,8 @@ module.exports = {
     });
   },
 
-  async userIsMemberOf(userName, groupName) {
-    return new Promise(async (resolve, reject) => {
+  userIsMemberOf(userName, groupName) {
+    return new Promise((resolve, reject) => {
       let userDN;
       this.findUser(userName)
         .then(userObject => {
@@ -290,10 +290,10 @@ module.exports = {
     });
   },
 
-  async authenticateUser(userName, pass) {
+  authenticateUser(userName, pass) {
     const domain = this.config.domain;
     let fullUser = `${userName}@${domain}`;
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.ad.authenticate(fullUser, pass, (error, authorized) => {
         let code;
         let out = authorized;
@@ -311,7 +311,7 @@ module.exports = {
     });
   },
 
-  async setUserPassword(userName, pass) {
+  setUserPassword(userName, pass) {
     return new Promise((resolve, reject) => {
       if (!pass) {
         return reject({ message: 'No password provided.' });
@@ -324,8 +324,8 @@ module.exports = {
     });
   },
 
-  async setUserCN(userName, cn) {
-    return new Promise(async (resolve, reject) => {
+  setUserCN(userName, cn) {
+    return new Promise((resolve, reject) => {
       this.findUser(userName)
         .then(userObject => {
           let oldDN = userObject.dn;
@@ -345,33 +345,33 @@ module.exports = {
     });
   },
 
-  async setUserProperty(userName, obj) {
+  setUserProperty(userName, obj) {
     return this._userReplaceOperation(userName, obj);
   },
 
-  async setUserPasswordNeverExpires(userName) {
+  setUserPasswordNeverExpires(userName) {
     const NEVER_EXPIRES = 66048;
     return this._userReplaceOperation(userName, {
       userAccountControl: NEVER_EXPIRES
     });
   },
 
-  async enableUser(userName) {
+  enableUser(userName) {
     const ENABLED = 512;
     return this._userReplaceOperation(userName, {
       userAccountControl: ENABLED
     });
   },
 
-  async disableUser(userName) {
+  disableUser(userName) {
     const DISABLED = 514;
     return this._userReplaceOperation(userName, {
       userAccountControl: DISABLED
     });
   },
 
-  async moveUser(userName, location) {
-    return new Promise(async (resolve, reject) => {
+  moveUser(userName, location) {
+    return new Promise((resolve, reject) => {
       location = parseLocation(location);
       this.findUser(userName)
         .then(userObject => {
@@ -391,8 +391,8 @@ module.exports = {
     });
   },
 
-  async getUserLocation(userName) {
-    return new Promise(async (resolve, reject) => {
+  getUserLocation(userName) {
+    return new Promise((resolve, reject) => {
       this.findUser(userName)
         .then(userObject => {
           if (Object.keys(userObject).length < 1) {
@@ -421,14 +421,14 @@ module.exports = {
     });
   },
 
-  async unlockUser(userName) {
+  unlockUser(userName) {
     return this._userReplaceOperation(userName, {
       lockoutTime: 0
     });
   },
 
-  async removeUser(userName) {
-    return new Promise(async (resolve, reject) => {
+  removeUser(userName) {
+    return new Promise((resolve, reject) => {
       this.findUser(userName).then(userObject => {
         if (Object.keys(userObject).length < 1) {
           return reject({ error: true, message: 'User does not exist.' });

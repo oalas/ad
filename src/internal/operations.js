@@ -12,7 +12,7 @@ const ldap = require('ldapjs');
  */
 
 module.exports = {
-  async _operation(objectString, operation) {
+  _operation(objectString, operation) {
     return new Promise(async (resolve, reject) => {
       const [error, client] = await this._getBoundClient();
       if (error) {
@@ -31,12 +31,12 @@ module.exports = {
     });
   },
 
-  async _operationByUser(userName, operation) {
-    return new Promise(async (resolve, reject) => {
+  _operationByUser(userName, operation) {
+    return new Promise((resolve, reject) => {
       const domain = this.config.domain;
       userName = `${userName}@${domain}`;
       this.findUser(userName)
-        .then(async userObject => {
+        .then(userObject => {
           if (!userObject || !userObject.dn) {
             /* istanbul ignore next */
             return reject({ message: `User ${userName} does not exist.` });
@@ -54,10 +54,10 @@ module.exports = {
     });
   },
 
-  async _operationByGroup(groupName, operation) {
-    return new Promise(async (resolve, reject) => {
+  _operationByGroup(groupName, operation) {
+    return new Promise((resolve, reject) => {
       this.findGroup(groupName)
-        .then(async groupObject => {
+        .then(groupObject => {
           if (!groupObject || Object.keys(groupObject).length < 1) {
             /* istanbul ignore next */
             return reject({ message: `Group ${groupName} does not exist.` });
@@ -71,21 +71,21 @@ module.exports = {
     });
   },
 
-  async _groupAddOperation(groupName, modification) {
+  _groupAddOperation(groupName, modification) {
     return this._operationByGroup(groupName, {
       operation: 'add',
       modification
     });
   },
 
-  async _groupDeleteOperation(groupName, modification) {
+  _groupDeleteOperation(groupName, modification) {
     return this._operationByGroup(groupName, {
       operation: 'delete',
       modification
     });
   },
 
-  async _userReplaceOperation(userName, modification) {
+  _userReplaceOperation(userName, modification) {
     return this._operationByUser(userName, {
       operation: 'replace',
       modification
