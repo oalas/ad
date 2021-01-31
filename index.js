@@ -12,6 +12,8 @@ const imports = {
 };
 
 class AD {
+  errorHandler = undefined;
+
   constructor(config) {
     if (config === undefined) {
       throw new Error('Configuration is required.');
@@ -82,10 +84,22 @@ class AD {
       baseDN: config.baseDN,
       username: config.user,
       password: config.pass,
+      reconnect: true,
       tlsOptions: {
         rejectUnauthorized: false
       }
     });
+
+    // Handle connection resets, etc
+    this.ad.on('error', (e) => {
+      if (typeof this.errorHandler === 'function') {
+        this.errorHandler(e);
+      }
+    });
+  }
+
+  setErrorHandler(cb) {
+    this.errorHandler = cb;
   }
 
   cache(bool) {
