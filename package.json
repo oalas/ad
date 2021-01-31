@@ -1,6 +1,6 @@
 {
-  "name": "@redningsselskapet/ad",
-  "version": "0.3.1",
+  "name": "@oalas/ad",
+  "version": "0.3.2",
   "description": "Active Directory API for Node",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,10 @@
     "chainable"
   ],
   "author": "dthree",
+  "contributors": [
+    "William Viker <william@trippelm.no>",
+    "Håkon Nessjøen <haakon@trippelm.no>"
+  ],
   "license": "MIT",
   "dependencies": {
     "activedirectory": "^0.7.2",
@@ -33,5 +37,5 @@
     "lint-staged": "^4.0.2",
     "prettier": "^1.5.3"
   },
-  "repository": "https://github.com/Redningsselskapet/ad"
+  "repository": "https://github.com/oalas/ad"
 }
