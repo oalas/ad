@@ -86,6 +86,7 @@ class AD {
   }
 
   connect() {
+    const { config } = this;
     if (this.ad !== undefined) {
       this.ad.destroy();
     }
