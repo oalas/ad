@@ -42,7 +42,10 @@ class AD {
     config.domain = String(config.user).split('@')[1];
 
     if (config.baseDN === undefined) {
-      config.baseDN = config.domain.split('.').map(n => `DC=${n}`).join(',');
+      config.baseDN = config.domain
+        .split('.')
+        .map(n => `DC=${n}`)
+        .join(',');
     }
 
     config = Object.assign(configFile, config);
@@ -79,6 +82,14 @@ class AD {
       }
     };
 
+    this.connect();
+  }
+
+  connect() {
+    if (this.ad !== undefined) {
+      this.ad.destroy();
+    }
+
     this.ad = new activedirectory({
       url: config.url,
       baseDN: config.baseDN,
@@ -91,7 +102,7 @@ class AD {
     });
 
     // Handle connection resets, etc
-    this.ad.on('error', (e) => {
+    this.ad.on('error', e => {
       if (typeof this.errorHandler === 'function') {
         this.errorHandler(e);
       }
