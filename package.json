@@ -1,6 +1,6 @@
 {
   "name": "@oalas/ad",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Active Directory API for Node",
   "main": "index.js",
   "scripts": {
