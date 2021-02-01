@@ -30,7 +30,7 @@ module.exports = {
 
       client.on('error', e => {
         if (this.errorHandler) {
-          this.this.errorHandler(e);
+          this.errorHandler(e);
         }
       });
     });
